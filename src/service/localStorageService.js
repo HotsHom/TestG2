@@ -1,6 +1,7 @@
 import UserStore from '../ModuleRepositories/local/store/userStore';
 import AsyncStorage from '@react-native-community/async-storage';
 import NotificationStore from '../ModuleRepositories/local/store/notificationStore';
+import { navigate } from '../Components/Navigation/navigationRef';
 
 export const setLocalToken = async token => {
   try {
@@ -16,6 +17,7 @@ export const getLocalToken = async () => {
     if (token) {
       UserStore.changeFlagAuth();
       UserStore.saveToken(token);
+      navigate('Tasks')
     }
   } catch (error) {
     NotificationStore.setNotification(error, '', true)

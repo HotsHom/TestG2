@@ -1,12 +1,13 @@
 import {action, computed, decorate, observable} from 'mobx';
 
 import {RestService} from '../../rest/apiService';
-import { deleteAllLocalData, setLocalToken } from '../../../service/localStorageService';
+import { deleteAllLocalData, setLocalToken, getLocalToken } from '../../../service/localStorageService';
 import NotificationStore from './notificationStore';
 
 class userStore {
   isFlagAuth = observable({
     Flag: false,
+    loadFlag : getLocalToken()
   });
 
   userData = observable({
