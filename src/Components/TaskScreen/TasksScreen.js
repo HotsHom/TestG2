@@ -31,8 +31,8 @@ class TasksScreen extends React.Component {
         <Button
           title="Добавить"
           onPress={ () => {
-            HistoryStore.clearHistory
-            TasksStore.clearCurrentTask 
+            HistoryStore.clearHistory()
+            TasksStore.clearCurrentTask()
           }}
           containerStyle={ defaultStyles.button }
           titleStyle={ {color: '#232323'} }
