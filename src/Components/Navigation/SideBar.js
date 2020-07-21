@@ -15,14 +15,14 @@ const Sidebar = props => {
         <View style={style.headerInfo}>
           <Text style={style.textTitle}>
             Привет
-            {UserStore.isFlagAuth.Flag
+            {UserStore.isAuth
               ? `, ${UserStore.userData.email.split('@')[0]}`
               : ''}
             !
           </Text>
         </View>
 
-        {UserStore.isFlagAuth.Flag ?
+        {UserStore.isAuth ?
         (
           <View>
             <DrawerItem
@@ -53,7 +53,7 @@ const Sidebar = props => {
           </View>
         )}
       </DrawerContentScrollView>
-      {UserStore.isFlagAuth.Flag ? (
+      {UserStore.isAuth ? (
         <DrawerItem
           style={style.menuItemLogOut}
           labelStyle={style.menuItemLogOutLable}

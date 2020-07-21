@@ -18,7 +18,7 @@ export default MainNavigation = observer(props => {
       drawerContent={ props => <Sidebar {...props} />}
       drawerType="slide"
       screenOptions = { {unmountOnBlur: true} }>
-      {UserStore.isFlagAuth.Flag ? 
+      {UserStore.isAuth ? 
         <>
           <Drawer.Screen name='Tasks'>
           {props => (

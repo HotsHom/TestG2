@@ -6,9 +6,7 @@ import NotificationStore from '../Warnings/notificationStore';
 import { goToHomeWithoutToken } from '../Navigation/navigationService';
 
 class userStore {
-  isFlagAuth = observable({
-    Flag: false
-  });
+  isAuth = false
 
   userData = observable({
     id: 0,
@@ -21,7 +19,7 @@ class userStore {
     return this.userData.token
   }
   changeFlagAuth = () => {
-     this.isFlagAuth.Flag = !this.isFlagAuth.Flag
+     this.isAuth = !this.isAuth
   };
   saveData = (id_, token) => {
     this.userData.id = id_;
@@ -97,6 +95,7 @@ class userStore {
   }
 }
 decorate(userStore, {
+  isAuth: observable,
   changeFlagAuth: action,
   saveData: action,
   saveEmail: action,
