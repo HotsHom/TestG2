@@ -6,6 +6,7 @@ import {Button} from 'react-native-elements';
 import {defaultStyles} from '../../styles/screenDefaultStyles';
 import TaskView from './TaskView';
 import TasksStore from './tasksStore';
+import HistoryStore from './historyStore';
 
 class TasksScreen extends React.Component {
   constructor(props) {
