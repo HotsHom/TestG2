@@ -5,9 +5,7 @@ import {Button} from 'react-native-elements';
 
 import {defaultStyles} from '../../styles/screenDefaultStyles';
 import TaskView from './TaskView';
-import TasksStore from '../../ModuleRepositories/local/store/tasksStore';
-import { goToCreate } from '../../ModuleRepositories/local/navigationService';
-import HistoryStore from '../../ModuleRepositories/local/store/historyStore';
+import TasksStore from './tasksStore';
 
 class TasksScreen extends React.Component {
   constructor(props) {
@@ -31,17 +29,13 @@ class TasksScreen extends React.Component {
       <View style={defaultStyles.screen}>
         <Button
           title="Добавить"
-          onPress={() => {
-            HistoryStore.clearHistory()
-            TasksStore.clearCurrentTask()
-            goToCreate()
-          }}
+          onPress={ TasksStore.clearCurrentTask }
           containerStyle={ defaultStyles.button }
           titleStyle={ {color: '#232323'} }
           type="clear"
         />
         <ScrollView style={ {height: '100%', width: '100%'} }>
-          {Array.isArray(TasksStore.getTasksListStore) ? 
+          {Array.isArray(TasksStore.getTasksListStore) ?
               TasksStore.getTasksListStore.map((value, index) => {
                 return (
                   <TaskView

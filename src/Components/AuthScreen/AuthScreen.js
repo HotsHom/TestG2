@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements';
 import {observer} from 'mobx-react';
 
 import {defaultStyles} from '../../styles/screenDefaultStyles';
-import UserStore from '../../ModuleRepositories/local/store/userStore';
+import UserStore from './userStore';
 
 function AuthScreen(props) {
   const [login, setLogin] = React.useState('');

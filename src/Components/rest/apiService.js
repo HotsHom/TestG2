@@ -1,12 +1,11 @@
-import {ERROR_HTTP} from '../constants';
-import UserStore from '../local/store/userStore';
+import {ERROR_HTTP} from '../../constants';
 
 const PORT = '3000';
 const HOST = `http://10.15.14.44:${PORT}`;
 const API_URL = `${HOST}/api`;
 
-export const RestService = ({url, method, body, signal}) => {
-  const token = UserStore.userData.token;
+export const RestService = ({url, method, body, signal, tokenFunction}) => {
+  const token = tokenFunction();
   const apiUrl = `${API_URL + url + (token ? '?access_token=' + token : '')}`;
   return fetch(apiUrl, {
     signal,

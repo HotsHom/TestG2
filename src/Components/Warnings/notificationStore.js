@@ -1,5 +1,5 @@
 import {action, computed, decorate, observable} from 'mobx';
-import * as RootNavigation from '../../../Components/Navigation/navigationRef';
+import * as RootNavigation from '../Navigation/navigationRef';
 
 class notificationStore {
   notifications = [];

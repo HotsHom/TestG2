@@ -1,12 +1,12 @@
 import React from 'react'
-import {View, Text, TextInput, Alert, Switch} from 'react-native' 
+import {View, Text, TextInput, Alert, Switch} from 'react-native'
 import {observer} from 'mobx-react';
 import { Button } from 'react-native-elements';
 
 import {defaultStyles} from '../../styles/screenDefaultStyles';
-import TasksStore from '../../ModuleRepositories/local/store/tasksStore';
-import { goToHome } from '../../ModuleRepositories/local/navigationService';
-import HistoryStore from '../../ModuleRepositories/local/store/historyStore';
+import TasksStore from './tasksStore';
+import { goToHome } from '../Navigation/navigationService';
+import HistoryStore from './historyStore';
 
 export const TaskCreate = observer(() => {
     exitPtotect = () => {
@@ -24,7 +24,7 @@ export const TaskCreate = observer(() => {
         : goToHome()
     }
 
-    const toggleSwitch = () => { 
+    const toggleSwitch = () => {
         HistoryStore.addPast()
         TasksStore.switchDone()
         TasksStore.change()
@@ -34,15 +34,15 @@ export const TaskCreate = observer(() => {
         <View style={ [ defaultStyles.screen, {width : '100%'} ] }>
             <View>
                 <View style={ defaultStyles.horizontalConteiner }>
-                    <Button 
-                        onPress={ () => HistoryStore.getPast() } 
+                    <Button
+                        onPress={ () => HistoryStore.getPast() }
                         titleStyle={ {color: '#232323'} }
                         containerStyle={ defaultStyles.button }
                         type="clear"
                         title="Undo"
                         />
-                    <Button 
-                        onPress={ () => HistoryStore.getFuture() } 
+                    <Button
+                        onPress={ () => HistoryStore.getFuture() }
                         titleStyle={ {color: '#232323'} }
                         containerStyle={ defaultStyles.button }
                         type="clear"
@@ -92,14 +92,14 @@ export const TaskCreate = observer(() => {
                     Завершено
                 </Text>
             </View>
-            <Button 
+            <Button
                 containerStyle={ defaultStyles.button }
                 titleStyle={ {color: '#232323'} }
                 type="clear"
                 title='Сохранить'
                 onPress={ () => { TasksStore.CreateOrChangeTask() } }
             />
-            <Button 
+            <Button
                 containerStyle={ defaultStyles.button }
                 titleStyle={ {color: '#232323'} }
                 type="clear"

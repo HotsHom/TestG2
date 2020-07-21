@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {observer} from 'mobx-react';
 import 'mobx-react-lite/batchingForReactNative';
 
-import {style} from '../../styles/sideBarStyles';
-import UserStore from '../../ModuleRepositories/local/store/userStore';
+import UserStore from '../AuthScreen/userStore';
+import { goToHome, goToHomeWithoutToken, goToAuth, goToRegister } from './navigationService';
 
 const Sidebar = props => {
   return (
@@ -21,41 +21,34 @@ const Sidebar = props => {
             !
           </Text>
         </View>
-        
-        {UserStore.isFlagAuth.Flag ? 
+
+        {UserStore.isFlagAuth.Flag ?
         (
           <View>
             <DrawerItem
               labelStyle={style.menuItem}
               label="| Home"
-              onPress={() => {
-                props.navigation.jumpTo('Tasks');
-              }}
+              onPress= {goToHome}
             />
           </View>
-        ) : 
+        ) 
+        :
         (
           <View>
             <DrawerItem
               labelStyle={style.menuItem}
               label="| Home"
-              onPress={() => {
-                props.navigation.jumpTo('Home');
-              }}
+              onPress={ goToHomeWithoutToken }
             />
             <DrawerItem
               labelStyle={style.menuItem}
               label="| Auth"
-              onPress={() => {
-                props.navigation.jumpTo('Auth');
-              }}
+              onPress={ goToAuth }
             />
             <DrawerItem
               labelStyle={style.menuItem}
               label="| Registration"
-              onPress={() => {
-                props.navigation.jumpTo('Registration');
-              }}
+              onPress={ goToRegister }
             />
           </View>
         )}
@@ -65,10 +58,7 @@ const Sidebar = props => {
           style={style.menuItemLogOut}
           labelStyle={style.menuItemLogOutLable}
           label="| LOGOUT"
-          onPress={() => {
-            UserStore.logoutUser()
-            props.navigation.jumpTo('Home');
-          }}
+          onPress={ UserStore.logoutUser }
         />
       ) : null}
     </View>
@@ -76,3 +66,36 @@ const Sidebar = props => {
 };
 
 export default observer(Sidebar);
+
+//СТИЛИ
+const style = StyleSheet.create({
+  mainContainer: {
+    height: '100%',
+    backgroundColor: '#f8eddc',
+  },
+  headerInfo: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    height: 'auto',
+    borderBottomColor: '#bbbaba',
+    borderBottomWidth: 1,
+    marginRight: 40,
+  },
+  textTitle: {
+    fontSize: 20,
+    color: '#010c24',
+    fontWeight: 'bold',
+  },
+  menuItem: {
+    fontSize: 15,
+    margin: 0,
+  },
+  menuItemLogOut: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 40,
+  },
+  menuItemLogOutLable: {
+    fontSize: 18,
+  },
+});

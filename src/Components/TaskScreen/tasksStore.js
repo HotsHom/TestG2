@@ -1,6 +1,10 @@
 import {action, computed, decorate, observable} from 'mobx';
-import {RestService} from '../../rest/apiService';
-import NotificationStore from './notificationStore';
+
+import {RestService} from '../rest/apiService';
+import NotificationStore from '../Warnings/notificationStore';
+import UserStore from '../AuthScreen/userStore';
+import { goToCreate, goToEdit } from '../Navigation/navigationService';
+import HistoryStore from './historyStore';
 
 class tasksStore {
 
@@ -35,6 +39,7 @@ class tasksStore {
       url: `/tasks${this.task.id ? `/${this.task.id}` : ''}`,
       method: this.task.id ? 'PATCH' : 'POST',
       body: this.task,
+      tokenFunction: () => UserStore.getToken()
     }).then(
       response => {
         this.LoadTasks();
@@ -50,6 +55,7 @@ class tasksStore {
       url: '/tasks',
       method: 'GET',
       signal: signal,
+      tokenFunction: () => UserStore.getToken()
     }).then(
       response => {
         this.setTasks(response);
@@ -63,6 +69,7 @@ class tasksStore {
     RestService({
       url: `/tasks/${id}`,
       method: 'DELETE',
+      tokenFunction: () => UserStore.getToken()
     }).then(
       () => {
         this.LoadTasks();
@@ -77,6 +84,7 @@ class tasksStore {
       url: `/tasks/${id}`,
       method: 'PATCH',
       body: {done: !status},
+      tokenFunction: () => UserStore.getToken()
     }).then(
       () => {
         this.LoadTasks();
@@ -86,7 +94,7 @@ class tasksStore {
       },
     );
   };
-  
+
   notyfication = (errorMessage, location, isError = false) => {
     NotificationStore.setNotification(errorMessage, location, isError);
   };
@@ -96,6 +104,8 @@ class tasksStore {
     this.task = this.tasksData.tasks[index];
     this.task.id = id;
     this.task.changed = false
+    HistoryStore.clearHistory()
+    goToEdit(id)
   };
 
   putInCurrentTask = task => {
@@ -117,6 +127,8 @@ class tasksStore {
     this.task.title = ''
     this.task.done = false
     this.task.changed = false
+    HistoryStore.clearHistory()
+    goToCreate()
   }
   change(){
     this.task.changed = true

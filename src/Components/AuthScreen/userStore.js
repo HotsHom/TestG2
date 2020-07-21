@@ -1,13 +1,13 @@
 import {action, computed, decorate, observable} from 'mobx';
 
-import {RestService} from '../../rest/apiService';
-import { deleteAllLocalData, setLocalToken, getLocalToken } from '../../../service/localStorageService';
-import NotificationStore from './notificationStore';
+import {RestService} from '../rest/apiService';
+import { deleteAllLocalData, setLocalToken } from './localStorageService';
+import NotificationStore from '../Warnings/notificationStore';
+import { goToHomeWithoutToken } from '../Navigation/navigationService';
 
 class userStore {
   isFlagAuth = observable({
-    Flag: false,
-    loadFlag : getLocalToken()
+    Flag: false
   });
 
   userData = observable({
@@ -17,14 +17,18 @@ class userStore {
     token: null,
   });
 
+  getToken = () => {
+    return this.userData.token
+  }
   changeFlagAuth = () => {
-    this.isFlagAuth.Flag = !this.isFlagAuth.Flag;
+     this.isFlagAuth.Flag = !this.isFlagAuth.Flag
   };
   saveData = (id_, token) => {
     this.userData.id = id_;
     this.userData.token = token;
-    setLocalToken(token);
-    this.changeFlagAuth();
+    setLocalToken(token).then(() => this.changeFlagAuth(), reason => {
+      NotificationStore.setNotification(reason, '', true)
+    })
   };
   get getEmail() {
     return this.userData.email;
@@ -49,10 +53,11 @@ class userStore {
         email: this.getEmail,
         password: this.getPassword,
       },
+      tokenFunction: () => this.getToken()
     }).then(
       response => {
         this.saveData(response.userId, response.id);
-        this.notyfication('Успешная авторизация', 'Tasks');
+        this.notyfication('Успешная авторизация', '');
       },
       reason => {
         this.notyfication(reason, '', true);
@@ -67,6 +72,7 @@ class userStore {
         email: this.getEmail,
         password: this.getPassword,
       },
+      tokenFunction: () => this.getToken()
     }).then(
       () => {
         this.notyfication('Успешная регистрация', 'Auth');
@@ -82,8 +88,12 @@ class userStore {
   };
 
   logoutUser = () => {
-    deleteAllLocalData();
-    this.changeFlagAuth()
+    deleteAllLocalData().then(() => {
+      this.changeFlagAuth()
+      goToHomeWithoutToken()
+    }, reason => {
+      NotificationStore.setNotification(reason, '', true)
+    })
   }
 }
 decorate(userStore, {
@@ -96,7 +106,7 @@ decorate(userStore, {
   getEmail: computed,
   RegistrationUser: action,
   saveToken: action,
-  logoutUser: action
+  logoutUser: action,
 });
 const UserStore = new userStore();
 export default UserStore;

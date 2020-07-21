@@ -1,4 +1,4 @@
-import * as RootNavigation from '../../Components/Navigation/navigationRef';
+import * as RootNavigation from './navigationRef';
 
 export function goToHome(){
     RootNavigation.navigate('Tasks')
@@ -17,4 +17,16 @@ export function goToEdit(id){
         id
       }
     })
+}
+
+export function goToHomeWithoutToken(){
+  RootNavigation.navigate('Home')
+}
+
+export function goToAuth(){
+  RootNavigation.navigate('Auth')
+}
+
+export function goToRegister(){
+  RootNavigation.navigate('Registration')
 }
