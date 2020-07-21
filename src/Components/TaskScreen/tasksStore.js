@@ -4,7 +4,6 @@ import {RestService} from '../rest/apiService';
 import NotificationStore from '../Warnings/notificationStore';
 import UserStore from '../AuthScreen/userStore';
 import { goToCreate, goToEdit } from '../Navigation/navigationService';
-import HistoryStore from './historyStore';
 
 class tasksStore {
 
@@ -104,7 +103,6 @@ class tasksStore {
     this.task = this.tasksData.tasks[index];
     this.task.id = id;
     this.task.changed = false
-    HistoryStore.clearHistory()
     goToEdit(id)
   };
 
@@ -127,7 +125,6 @@ class tasksStore {
     this.task.title = ''
     this.task.done = false
     this.task.changed = false
-    HistoryStore.clearHistory()
     goToCreate()
   }
   change(){

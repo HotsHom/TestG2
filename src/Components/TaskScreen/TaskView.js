@@ -4,6 +4,7 @@ import {observer} from 'mobx-react';
 import {connectActionSheet} from '@expo/react-native-action-sheet';
 
 import TasksStore from './tasksStore';
+import HistoryStore from './historyStore';
 
 class taskView extends React.Component {
 
@@ -44,6 +45,7 @@ class taskView extends React.Component {
       buttonIndex => {
         switch (buttonIndex) {
           case 0:
+            HistoryStore.clearHistory()
             TasksStore.loadCurrentTask(this.props.id)
             break;
           case 1:
